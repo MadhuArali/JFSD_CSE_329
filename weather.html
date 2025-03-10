@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            padding: 50px;
+            background-image: url('https://www.flyhpa.com/files/2017/07/2017.07.06-06.53-flyhpa-595e871fc6722.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        #weather {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+        #weather h2 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1> Alliance Weather App</h1>
+    <input type="text" id="cityInput" placeholder="Enter city name">
+    <button onclick="getWeather()">Get Weather</button>
+    <div id="weather">
+        <h2>Weather Information</h2>
+        <p id="description"></p>
+        <p id="temperature"></p>
+        <p id="humidity"></p>
+    </div>
+
+    <script>
+        const apiKey = '8bf2e26b035378a231c4275ace365381';
+
+        function getWeather() {
+            const city = document.getElementById('cityInput').value;
+            const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+            document.getElementById('weather').style.display = 'none';
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('description').innerText = `Description: ${data.weather[0].description}`;
+                    document.getElementById('temperature').innerText = `Temperature: ${data.main.temp} °C`;
+                    document.getElementById('humidity').innerText = `Humidity: ${data.main.humidity} %`;
+                    document.getElementById('weather').style.display = 'block';
+                })
+                .catch(error => console.error('Error fetching the weather data:', error));
+        }
+    </script>
+</body>
+</html>
